@@ -1,12 +1,16 @@
-server:
-  port: 8888   # 配置服务器默认端口
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka/  # 确保 Eureka 服务器地址正确
+    register-with-eureka: true  # 是否注册到 Eureka
+    fetch-registry: true  # 是否从 Eureka 拉取注册表
+    #    enabled: false
+    registry-fetch-interval-seconds: 30
+    healthcheck:
+      enabled: true
 
-spring:
-  application:
-    name: config-server
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://github.com/your-github-repo/config-repo  # 配置仓库的 Git 地址
-          clone-on-start: true
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id:  ${spring.application.name}:${server.port}
